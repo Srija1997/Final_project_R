@@ -133,7 +133,7 @@ ui <- fluidPage(
                           p ('Summary and visualizing individual gene counts is sometimes useful for examining or verifying patterns identified by differential expression analysis.'),
                           fileInput("gene_file", label="Load samples file here:", accept = c(".csv")),
                           fileInput("norm_file2", label="Load normalised counts matrix:", accept = c(".csv")),
-                          textInput(inputId = "search_term",label = "Search gene here:", placeholder = "ENSG00000000419.8"),
+                          textInput(inputId = "search_term",label = "Search gene here (Eg: ENSG00000000419.8):", placeholder = "ENSG00000000419.8"),
                           submitButton("Submit", icon("check")),
                         ),
                         mainPanel(
@@ -192,7 +192,7 @@ server <- function(input, output, session) {
     f <- dplyr::filter(dat, dat$row_var >= quantile(row_var, var) & dat$count_na >= zero)
     unfiltered_genes <- nrow(dat)-nrow(f)
     df <- data.frame(Description = c("Total number of genes", "Total number of samples", "Number of filtered genes", "Percentage of filtered genes", "Number of unfiltered genes", "Percentage of unfiltered genes"),
-                     Number = c(nrow(dat), ncol(dat), nrow(f), nrow(f)/nrow(dat)*100, unfiltered_genes, unfiltered_genes/nrow(dat)*100)) %>% as_tibble()
+                     Number = c(nrow(dat), ncol(dat)-3, nrow(f), nrow(f)/nrow(dat)*100, unfiltered_genes, unfiltered_genes/nrow(dat)*100)) %>% as_tibble()
     return(df)
   }
   
